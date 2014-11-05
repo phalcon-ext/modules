@@ -1,0 +1,26 @@
+{
+    "name": "phalcon-ext/modules",
+    "type": "library",
+    "description": "Modules component for Phalcon.",
+    "keywords": ["modules", "modules-manager", "phalcon", "phalcon-ext"],
+    "minimum-stability": "stable",
+    "license": "LGPL",
+
+    "authors": [
+        {
+            "name": "Stanislav Kiryukhin",
+            "email": "korsar.zn@gmail.com",
+            "role": "Founder and project lead"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.4.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Phalcon\\Ext\\Modules\\": "src/"
+        }
+    }
+}
