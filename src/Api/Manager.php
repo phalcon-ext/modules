@@ -15,12 +15,13 @@ namespace Phalcon\Ext\Modules\Api;
 
 use Phalcon\Ext\Modules\ModuleInterface;
 use Phalcon\DI\ServiceInterface;
+use Phalcon\Mvc\User\Component;
 
 /**
  * Class ApiManager
  * @package Phalcon\Ext\Module
  */
-class Manager implements ManagerInterface
+class Manager extends Component implements ManagerInterface
 {
     /**
      * @var ModuleInterface
@@ -74,7 +75,7 @@ class Manager implements ManagerInterface
         }
 
         /** @var $widget \Phalcon\DI\Service */
-        $widget = $this->getModule()->getDI()->get('\Phalcon\DI\Service', [$name, $definition, $shared]);
+        $widget = $this->getDI()->get('\Phalcon\DI\Service', [$name, $definition, $shared]);
         $this->_services[$name] = $widget;
 
         return $this;
@@ -106,7 +107,7 @@ class Manager implements ManagerInterface
     {
         if ($this->has($name)) {
             return $this->getService($name)
-                ->resolve($parameters, $this->getModule()->getDI());
+                ->resolve($parameters, $this->getDI());
         } else {
             $this->throwNotFound($name);
             return false;
@@ -174,5 +175,41 @@ class Manager implements ManagerInterface
     protected function throwNotFound($name)
     {
         throw new \RuntimeException('Service "' . $name . '" wasn\'t found in the container');
+    }
+
+    /**
+     * @param $name
+     *
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return $this->has($name);
+
+    }
+
+    /**
+     * @param $name
+     *
+     * @return object
+     */
+    public function __get($name)
+    {
+        return $this->getShared($name);
+    }
+
+    /**
+     * @param $method
+     * @param $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        if ($this->has($method)) {
+            return $this->get($method, $args);
+        } else {
+            $this->throwNotFound($method);
+        }
     }
 }

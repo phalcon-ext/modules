@@ -81,4 +81,26 @@ interface ManagerInterface
      * set state readOnly API container
      */
     public function setReadOnly();
+
+    /**
+     * @param $name
+     *
+     * @return bool
+     */
+    public function __isset($name);
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function __get($name);
+
+    /**
+     * @param $method
+     * @param ...$args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args);
 }
